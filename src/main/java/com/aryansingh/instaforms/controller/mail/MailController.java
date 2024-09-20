@@ -6,6 +6,8 @@ import com.aryansingh.instaforms.utils.api.ApiResponse;
 import com.aryansingh.instaforms.utils.email.AccountVerificationEmailContext;
 import com.aryansingh.instaforms.utils.email.MailService;
 import com.aryansingh.instaforms.utils.exceptions.ApiException;
+import com.aryansingh.instaforms.utils.rabbitmq.EmailConsumer;
+import com.aryansingh.instaforms.utils.rabbitmq.EmailProducer;
 import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,7 @@ public class MailController {
 
 //    private final MailService mailService;
 
-    private MailService mailService;
+   private final EmailProducer emailProducer;
 
 //    @PostMapping("/simple")
 //    public ResponseEntity<ApiResponse<String>> sendMail(@RequestBody SimpleMailDTO simpleMailDTO){
@@ -46,16 +48,8 @@ public class MailController {
     @PostMapping("/send")
     public ResponseEntity<ApiResponse<String>> sendEmail(@RequestBody SimpleMailDTO simpleMailDTO){
 
-         AccountVerificationEmailContext accountVerificationEmailContext =  new AccountVerificationEmailContext();
-         accountVerificationEmailContext.init();
-        accountVerificationEmailContext.setTo(simpleMailDTO.getTo());
-        accountVerificationEmailContext.setSubject(simpleMailDTO.getSubject());
-        accountVerificationEmailContext.setOTP(simpleMailDTO.getMessage());
-        try {
-            mailService.sendEmail(accountVerificationEmailContext);
-        } catch (MessagingException e) {
-            throw new ApiException("Error sending email");
-        }
+
+        emailProducer.sendToQueue(simpleMailDTO);
 
         return ResponseEntity.ok(new ApiResponse<>(AppConstants.SUCCESS_CODE,"Email sent successfully",AppConstants.SUCCESS_MESSAGE));
     }

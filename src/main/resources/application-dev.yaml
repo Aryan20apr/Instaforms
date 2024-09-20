@@ -50,10 +50,10 @@ spring:
 
   # RabbitMQ configuration
   rabbitmq:
-    host: puffin.rmq2.cloudamqp.com
-    port: 5672
-    username: lruewtmy
-    virtual-host: lruewtmy
+    host: puffin-01.rmq2.cloudamqp.com
+    port: 5671
+    username: pxpjftor
+    virtual-host: pxpjftor
     ssl:
       enabled: true
 
@@ -74,6 +74,11 @@ rabbit:
     exchange: emailExchange
     routing-key: emailRoutingKey
     queue: emailQueue
+  dlx:
+    exchange: dlxExchange
+    routing-key: dlxRotingKey
+    queue: dlxQueue
+
 
 
 

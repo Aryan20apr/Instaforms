@@ -4,11 +4,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.io.Serializable;
 
 @AllArgsConstructor
 @Setter
 @Getter
-public class SimpleMailDTO {
+@ToString
+public class SimpleMailDTO implements Serializable {
 
     @NotNull(message = "Recipient Id cannot be null.")
     private String to;

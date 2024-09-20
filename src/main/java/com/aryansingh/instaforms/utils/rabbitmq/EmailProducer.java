@@ -1,7 +1,6 @@
 package com.aryansingh.instaforms.utils.rabbitmq;
 
 import com.aryansingh.instaforms.models.dtos.mail.SimpleMailDTO;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +21,7 @@ public class EmailProducer {
     public EmailProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
+
 
     public void sendToQueue(SimpleMailDTO simpleMailDTO) {
         rabbitTemplate.convertAndSend(exchange, emailRoutingKey, simpleMailDTO);
