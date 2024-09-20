@@ -34,5 +34,5 @@ build/
 
 
 
-secrets-dev.yaml
+src/main/resources/secrets-dev.yaml
 secrets-prod.yaml

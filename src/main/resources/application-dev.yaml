@@ -48,7 +48,14 @@ spring:
             writetimeout: 5000
 
 
-
+  # RabbitMQ configuration
+  rabbitmq:
+    host: puffin.rmq2.cloudamqp.com
+    port: 5672
+    username: lruewtmy
+    virtual-host: lruewtmy
+    ssl:
+      enabled: true
 
 
 #  Mail configurations
