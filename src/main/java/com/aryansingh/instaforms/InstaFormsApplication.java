@@ -1,9 +1,12 @@
 package com.aryansingh.instaforms;
 
+import com.aryansingh.instaforms.utils.email.EmailConfigurationProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 @SpringBootApplication
+@EnableConfigurationProperties(EmailConfigurationProperties.class)
 public class InstaFormsApplication {
 
     public static void main(String[] args) {

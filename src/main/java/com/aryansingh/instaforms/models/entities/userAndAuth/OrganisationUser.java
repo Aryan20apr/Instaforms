@@ -56,7 +56,6 @@ public class OrganisationUser {
 
     // List of responses
 
-    // Set of forms
 
     @CreatedDate
     @CreationTimestamp

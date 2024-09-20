@@ -47,7 +47,7 @@ public class Organisation {
     @Column(nullable = false)
     private Set<Role> roles = new HashSet<>();
     // Set of forms
-    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "organisation", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<FormOwner> forms = new HashSet<>();
 
     @Column(nullable = false)

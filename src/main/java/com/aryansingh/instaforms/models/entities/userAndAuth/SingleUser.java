@@ -24,7 +24,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @Table
-public class User {
+public class SingleUser {
 
 
     @Id
@@ -65,7 +65,7 @@ public class User {
     // List of responses
 
     // Set of forms
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "singleUser", cascade = CascadeType.ALL, orphanRemoval = true,fetch = FetchType.LAZY)
     private Set<FormOwner> forms = new HashSet<>();
 
     @CreatedDate
@@ -89,12 +89,12 @@ public class User {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if (!(o instanceof User user))
+        if (!(o instanceof SingleUser singleUser))
             return false;
-        return Objects.equals(getUserName(), user.getUserName()) && Objects.equals(getLastName(), user.getLastName())
-                && Objects.equals(getEmail(), user.getEmail()) && Objects.equals(getPhoneNumber(),
-                user.getPhoneNumber()) && Objects.equals(getProfileImage(), user.getProfileImage()) && Objects.equals(
-                getUserToken(), user.getUserToken());
+        return Objects.equals(getUserName(), singleUser.getUserName()) && Objects.equals(getLastName(), singleUser.getLastName())
+                && Objects.equals(getEmail(), singleUser.getEmail()) && Objects.equals(getPhoneNumber(),
+                singleUser.getPhoneNumber()) && Objects.equals(getProfileImage(), singleUser.getProfileImage()) && Objects.equals(
+                getUserToken(), singleUser.getUserToken());
     }
 
     @Override

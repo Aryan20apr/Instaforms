@@ -1,7 +1,7 @@
 package com.aryansingh.instaforms.models.entities.form;
 
+import com.aryansingh.instaforms.models.entities.userAndAuth.SingleUser;
 import com.aryansingh.instaforms.models.entities.userAndAuth.Organisation;
-import com.aryansingh.instaforms.models.entities.userAndAuth.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,15 +16,15 @@ public class FormOwner {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "form_id",nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "form_id",referencedColumnName = "form_id",nullable = false)
     private Form form;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
-    private User user;
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = true)
+    private SingleUser singleUser;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
+    @JoinColumn(name = "org_id", referencedColumnName = "id", nullable = true)
     private Organisation organisation;
 }

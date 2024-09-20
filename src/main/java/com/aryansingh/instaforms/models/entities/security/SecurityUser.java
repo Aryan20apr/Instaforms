@@ -1,8 +1,8 @@
 package com.aryansingh.instaforms.models.entities.security;
 
+import com.aryansingh.instaforms.models.entities.userAndAuth.SingleUser;
 import com.aryansingh.instaforms.models.entities.userAndAuth.Privilege;
 import com.aryansingh.instaforms.models.entities.userAndAuth.Role;
-import com.aryansingh.instaforms.models.entities.userAndAuth.User;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,7 +13,7 @@ import java.util.*;
 @AllArgsConstructor
 public class SecurityUser implements UserDetails {
 
-    private final User user;
+    private final SingleUser singleUser;
 
     private List<String> getPrivileges(Collection<Role> roles) {
 
@@ -39,17 +39,17 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getGrantedAuthorities(getPrivileges((user.getRoles())));
+        return getGrantedAuthorities(getPrivileges((singleUser.getRoles())));
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return singleUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return user.getUserName();
+        return singleUser.getUserName();
     }
 
     @Override

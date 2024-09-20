@@ -1,7 +1,7 @@
 package com.aryansingh.instaforms.config.security.services;
 
 import com.aryansingh.instaforms.models.entities.security.SecurityUser;
-import com.aryansingh.instaforms.models.entities.userAndAuth.User;
+import com.aryansingh.instaforms.models.entities.userAndAuth.SingleUser;
 import com.aryansingh.instaforms.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,7 +19,7 @@ public class SingleUserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUserNameOrEmail(username);
+        Optional<SingleUser> user = userRepository.findByUserNameOrEmail(username,username);
         return user.map(SecurityUser::new).orElse(null);
     }
 }
