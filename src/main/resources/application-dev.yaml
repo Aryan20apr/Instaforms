@@ -58,6 +58,7 @@ spring:
       enabled: true
 
 
+
 #  Mail configurations
 
 logging:
@@ -67,6 +68,12 @@ logging:
     org.springframework.data.redis.core: DEBUG
     org.springframework.data.redis.serializer: DEBUG
 
+
+rabbit:
+  email:
+    exchange: emailExchange
+    routing-key: emailRoutingKey
+    queue: emailQueue
 
 
 
