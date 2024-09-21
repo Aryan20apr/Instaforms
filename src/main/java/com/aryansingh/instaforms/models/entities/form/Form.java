@@ -43,7 +43,7 @@ public class Form {
     private List<FormResponse> responses = new ArrayList<>();
 
     // Set of sections
-    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "form", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private Set<Section> sections = new LinkedHashSet<>();
 
     private Boolean isUpdatable;
