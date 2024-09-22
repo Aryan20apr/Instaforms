@@ -18,6 +18,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "field_type",discriminatorType = DiscriminatorType.STRING)
 public class FormField {
 
     @Id
@@ -30,6 +32,7 @@ public class FormField {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<SectionResource> resources = new ArrayList<>();
 
+    @Column(name = "field_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)
     FormFieldType type;
 
