@@ -40,7 +40,9 @@ public class AppConstants {
     public static final String REALM_HEADER = "WWW-Authenticate";
 
     public static final String[] PUBLIC_URLS = {
-            "/instaform/api/v1/mail/send"
+            "/instaform/api/v1/mail/send",
+            "/instaform/api/vi/user/register",
+            "/instaform/api/vi/user/login"
     };
 
 

@@ -3,21 +3,14 @@ package com.aryansingh.instaforms.controller.mail;
 import com.aryansingh.instaforms.models.dtos.mail.SimpleMailDTO;
 import com.aryansingh.instaforms.utils.AppConstants;
 import com.aryansingh.instaforms.utils.api.ApiResponse;
-import com.aryansingh.instaforms.utils.email.AccountVerificationEmailContext;
-import com.aryansingh.instaforms.utils.email.MailService;
-import com.aryansingh.instaforms.utils.exceptions.ApiException;
-import com.aryansingh.instaforms.utils.rabbitmq.EmailConsumer;
 import com.aryansingh.instaforms.utils.rabbitmq.EmailProducer;
-import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 
 @RestController
-@RequestMapping("/instaform/api/v1/mail")
+@RequestMapping("/v1/mail")
 @AllArgsConstructor
 public class MailController {
 

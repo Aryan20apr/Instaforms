@@ -5,6 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Base64;
@@ -36,7 +38,7 @@ public class JWTUtils {
         return claimsResolver.apply(claims);
     }
 
-    private static Claims extractAllClaims(String token) {
+    public static Claims extractAllClaims(String token) {
 
         Claims parsedClaims = Jwts.parser().setSigningKey(AppConstants.SECRET_KEY).build().parseSignedClaims(token)
                 .getPayload();
@@ -90,6 +92,12 @@ public class JWTUtils {
 
         return pairedCredentials.split(":", 2);
 
+    }
+
+    public static String extract(String key) {
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        Claims claims = (Claims) authentication.getDetails();
+        return (String)claims.get(key);
     }
 
 }

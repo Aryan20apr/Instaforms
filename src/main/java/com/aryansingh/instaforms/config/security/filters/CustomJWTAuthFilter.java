@@ -8,14 +8,12 @@ import com.aryansingh.instaforms.utils.AppConstants;
 import com.aryansingh.instaforms.utils.exceptions.ApiException;
 import com.aryansingh.instaforms.utils.exceptions.InsufficientRolesException;
 import com.aryansingh.instaforms.utils.security.JWTUtils;
+import io.jsonwebtoken.*;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
@@ -45,18 +43,19 @@ import static com.aryansingh.instaforms.utils.AppConstants.PUBLIC_URLS;
 
 @Component
 @Slf4j
+@AllArgsConstructor
 public class CustomJWTAuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
 
-    @Autowired
+
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver exceptionResolver;
-    @Autowired
+
     private SingleUserDetailService singleUserDetailService;
-    @Autowired
+
     private OrganisationDetailService organisationDetailService;
-    @Autowired
+
     private OrgUserDetailService orgUserDetailService;
 
 //    @Value("${jwt.accessTokenCookieName}")
@@ -134,7 +133,8 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
                         throw new ApiException("User not found with username: " + username);
                     } else if (JWTUtils.validateToken(headerToken, userDetails)) {
                         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+//                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        usernamePasswordAuthenticationToken.setDetails(JWTUtils.extractAllClaims(headerToken));
                         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                         filterChain.doFilter(request, response);
                     } else {
@@ -150,6 +150,7 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
             }
         }
     }
+
 
     private String getTokenFromCookie(HttpServletRequest httpServletRequest) {
 //        Cookie cookie = WebUtils.getCookie(httpServletRequest, accessTokenCookieName);
