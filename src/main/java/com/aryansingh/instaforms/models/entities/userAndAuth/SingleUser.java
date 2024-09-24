@@ -2,11 +2,9 @@ package com.aryansingh.instaforms.models.entities.userAndAuth;
 
 
 import com.aryansingh.instaforms.models.entities.form.FormOwner;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -23,7 +21,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@AllArgsConstructor
 @Table
+@Builder
 public class SingleUser {
 
 
@@ -51,7 +51,7 @@ public class SingleUser {
 
     private String profileImage;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
     @Column(nullable = false)

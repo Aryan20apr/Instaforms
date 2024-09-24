@@ -64,8 +64,7 @@ public class JWTUtils {
         Date expirationDate = new Date(System.currentTimeMillis() + AppConstants.ACCESS_TOKEN_EXPIRATION_TIME
         );
         log.info("Expiration date: " + expirationDate + " formatted: " + expirationDate);
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(issueDate)
-                .setExpiration(expirationDate)
+        return Jwts.builder().claims(claims).subject(subject).issuedAt(issueDate).expiration(expirationDate)
                 .signWith(SignatureAlgorithm.HS256, AppConstants.SECRET_KEY).compact()
                 ;
     }

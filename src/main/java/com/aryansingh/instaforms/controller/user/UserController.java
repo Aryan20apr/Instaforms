@@ -8,24 +8,27 @@ import com.aryansingh.instaforms.utils.AppConstants;
 import com.aryansingh.instaforms.utils.api.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.convert.ReadingConverter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-@ReadingConverter
-@RequestMapping("/v1/user")
+@RestController
+@RequestMapping("instaform/api/v1/user")
 @AllArgsConstructor
+@Slf4j
 public class UserController {
 
     UserService userService;
 
+
+
     @PostMapping("/new")
     public ResponseEntity<ApiResponse<String>> createUser(@Valid @RequestBody UserDTO userDTO) {
+
+        log.info("In /v1/user: "+userDTO.toString());
 
          userService.registerUser(userDTO);
 

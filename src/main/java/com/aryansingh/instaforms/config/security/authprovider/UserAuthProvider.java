@@ -1,6 +1,7 @@
 package com.aryansingh.instaforms.config.security.authprovider;
 
 import com.aryansingh.instaforms.config.security.services.SingleUserDetailService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -20,6 +21,7 @@ public class UserAuthProvider implements AuthenticationProvider {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = String.valueOf(authentication.getPrincipal());
         String password=String.valueOf(authentication.getCredentials());

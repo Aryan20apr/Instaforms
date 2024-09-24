@@ -3,37 +3,32 @@ package com.aryansingh.instaforms.config.security.filters;
 import com.aryansingh.instaforms.config.security.services.OrgUserDetailService;
 import com.aryansingh.instaforms.config.security.services.OrganisationDetailService;
 import com.aryansingh.instaforms.config.security.services.SingleUserDetailService;
+import com.aryansingh.instaforms.config.security.utils.CachedBodyHttpServletRequest;
 import com.aryansingh.instaforms.models.dtos.auth.LoginRequestDTO;
 import com.aryansingh.instaforms.utils.AppConstants;
 import com.aryansingh.instaforms.utils.exceptions.ApiException;
 import com.aryansingh.instaforms.utils.exceptions.InsufficientRolesException;
 import com.aryansingh.instaforms.utils.security.JWTUtils;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.util.WebUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.AccessDeniedException;
 import java.util.Arrays;
@@ -41,25 +36,27 @@ import java.util.Arrays;
 import static com.aryansingh.instaforms.utils.AppConstants.AUTH_HEADER;
 import static com.aryansingh.instaforms.utils.AppConstants.PUBLIC_URLS;
 
-@Component
 @Slf4j
-@AllArgsConstructor
 public class CustomJWTAuthFilter extends OncePerRequestFilter {
 
     private final AuthenticationManager authenticationManager;
 
 
+    @Autowired
     @Qualifier("handlerExceptionResolver")
     private HandlerExceptionResolver exceptionResolver;
 
+    @Autowired
     private SingleUserDetailService singleUserDetailService;
 
+    @Autowired
     private OrganisationDetailService organisationDetailService;
 
+    @Autowired
     private OrgUserDetailService orgUserDetailService;
 
-//    @Value("${jwt.accessTokenCookieName}")
-//    private String accessTokenCookieName;
+    //    @Value("${jwt.accessTokenCookieName}")
+    //    private String accessTokenCookieName;
 
     public CustomJWTAuthFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -68,12 +65,34 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI(); //-get the uri
+
+        CachedBodyHttpServletRequest cachedBodyHttpServletRequest =
+                new CachedBodyHttpServletRequest(request);
+        log.info("Inside doFilterInternal()");
         //-if the uri is a login uri, then login
         if (uri.endsWith(AppConstants.SIGN_IN_URI_ENDING)) {
             //-obtain username and password
-            LoginRequestDTO jwtAuthRequest = new ObjectMapper().readValue(request.getInputStream(), LoginRequestDTO.class);
-            String username = jwtAuthRequest.getUsername();
+
+            BufferedReader reader = cachedBodyHttpServletRequest.getReader();
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
+            }
+
+            String requestBody = sb.toString();
+            log.info("Request body: " + requestBody);
+            LoginRequestDTO jwtAuthRequest = new ObjectMapper().readValue(requestBody, LoginRequestDTO.class);
+            String username = jwtAuthRequest.getUserName();
             String password = jwtAuthRequest.getPassword();
+            try {
+                if(username == null || username.isBlank() || password == null || password.isBlank()){
+                    throw new ApiException("Both username and password are required");
+                }
+            } catch (ApiException e) {
+                exceptionResolver.resolveException(cachedBodyHttpServletRequest, response, null, e);
+                return;
+            }
             UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
             Authentication authenticationResult = null;
             try {
@@ -88,7 +107,7 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationResult);
             }
 
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(cachedBodyHttpServletRequest, response);
         }
         //-if not a login uri, check for access token
         else {
@@ -104,7 +123,7 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
                     log.info("Checking for URI: "+uri);
                     boolean isPublicUrl = Arrays.stream(PUBLIC_URLS).anyMatch(uri::endsWith);
                     if(isPublicUrl) {
-                        filterChain.doFilter(request, response);
+                        filterChain.doFilter(cachedBodyHttpServletRequest, response);
                         return;
                     }
                     else{
@@ -133,10 +152,10 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
                         throw new ApiException("User not found with username: " + username);
                     } else if (JWTUtils.validateToken(headerToken, userDetails)) {
                         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        //                        usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         usernamePasswordAuthenticationToken.setDetails(JWTUtils.extractAllClaims(headerToken));
                         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                        filterChain.doFilter(request, response);
+                        filterChain.doFilter(cachedBodyHttpServletRequest, response);
                     } else {
                         throw new ApiException("Token validation returned false");
                     }
@@ -146,15 +165,15 @@ public class CustomJWTAuthFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException | AccessDeniedException | UnsupportedJwtException | MalformedJwtException |
                     SignatureException | IllegalArgumentException | ApiException | InsufficientRolesException e) {
                 SecurityContextHolder.getContext().setAuthentication(UsernamePasswordAuthenticationToken.unauthenticated(userDetails, null));
-                exceptionResolver.resolveException(request, response, null, e);
+                exceptionResolver.resolveException(cachedBodyHttpServletRequest, response, null, e);
             }
         }
     }
 
 
     private String getTokenFromCookie(HttpServletRequest httpServletRequest) {
-//        Cookie cookie = WebUtils.getCookie(httpServletRequest, accessTokenCookieName);
-//        return cookie != null ? cookie.getValue() : null;
+        //        Cookie cookie = WebUtils.getCookie(httpServletRequest, accessTokenCookieName);
+        //        return cookie != null ? cookie.getValue() : null;
         return null;
     }
 }

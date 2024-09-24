@@ -1,4 +1,4 @@
-package com.aryansingh.instaforms.config.security;
+package com.aryansingh.instaforms.config.security.utils;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;

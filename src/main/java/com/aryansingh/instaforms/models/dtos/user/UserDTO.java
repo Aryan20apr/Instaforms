@@ -1,6 +1,7 @@
 package com.aryansingh.instaforms.models.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
@@ -27,7 +28,9 @@ public class UserDTO {
     @NotEmpty(message = "Email must not be empty")
     private String email;
 
+    @Setter
     @NotEmpty(message = "Password must not be empty")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotEmpty(message = "Phone number must not be empty")
@@ -38,8 +41,4 @@ public class UserDTO {
     @NotEmpty(message = "Roles must not be empty")
     private Set<String> roles = new HashSet<>();
 
-    @JsonIgnore
-    public String getPassword() {
-        return password;
-    }
 }

@@ -1,5 +1,6 @@
-package com.aryansingh.instaforms.config.security;
+package com.aryansingh.instaforms.config.security.utils;
 
+import com.aryansingh.instaforms.config.security.filters.CustomJWTAuthFilter;
 import com.aryansingh.instaforms.utils.exceptions.InsufficientRolesException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

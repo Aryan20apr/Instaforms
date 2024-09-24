@@ -41,8 +41,8 @@ public class AppConstants {
 
     public static final String[] PUBLIC_URLS = {
             "/instaform/api/v1/mail/send",
-            "/instaform/api/vi/user/register",
-            "/instaform/api/vi/user/login"
+            "/instaform/api/v1/user/new",
+            "/instaform/api/v1/user/login"
     };
 
 

@@ -6,7 +6,5 @@ spring:
     virtual:
       enabled: true
 
-server:
-  servlet:
-    context-path: /instaform/api
+
 

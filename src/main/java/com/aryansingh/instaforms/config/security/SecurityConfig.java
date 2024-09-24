@@ -4,6 +4,7 @@ import com.aryansingh.instaforms.config.security.authprovider.OrgUserAuthProvide
 import com.aryansingh.instaforms.config.security.authprovider.OrganisationAuthProvider;
 import com.aryansingh.instaforms.config.security.authprovider.UserAuthProvider;
 import com.aryansingh.instaforms.config.security.filters.CustomJWTAuthFilter;
+import com.aryansingh.instaforms.config.security.utils.CustomAccessDeniedHandler;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.RequiredArgsConstructor;
