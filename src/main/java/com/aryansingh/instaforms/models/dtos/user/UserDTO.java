@@ -2,7 +2,9 @@ package com.aryansingh.instaforms.models.dtos.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.util.HashSet;
@@ -33,7 +35,8 @@ public class UserDTO {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
-    @NotEmpty(message = "Phone number must not be empty")
+    @NotBlank(message = "Phone number cannot be blank")
+    @Pattern(regexp = "\\d{10}", message = "Phone number must be a valid 10-digit number")
     private String phoneNumber;
 
     private String profileImage;

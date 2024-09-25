@@ -2,10 +2,7 @@ package com.aryansingh.instaforms.models.entities.userAndAuth;
 
 import com.aryansingh.instaforms.models.entities.form.FormOwner;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +19,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
 public class Organisation {
 
     @Id
@@ -46,7 +45,7 @@ public class Organisation {
     @Column(nullable = false)
     private String about;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "org_role",joinColumns = @JoinColumn(name = "org_id",referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "role_id"))
     @Column(nullable = false)
