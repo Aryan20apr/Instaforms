@@ -1,7 +1,7 @@
 package com.aryansingh.instaforms.service.role;
 
 import com.aryansingh.instaforms.models.entities.userAndAuth.Role;
-import com.aryansingh.instaforms.repositories.RoleRepository;
+import com.aryansingh.instaforms.repositories.organduser.RoleRepository;
 import com.aryansingh.instaforms.utils.exceptions.ApiException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

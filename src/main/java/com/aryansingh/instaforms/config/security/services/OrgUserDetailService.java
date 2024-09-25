@@ -2,7 +2,7 @@ package com.aryansingh.instaforms.config.security.services;
 
 import com.aryansingh.instaforms.models.entities.security.SecurityOrgUser;
 import com.aryansingh.instaforms.models.entities.userAndAuth.OrganisationUser;
-import com.aryansingh.instaforms.repositories.OrgUserRepository;
+import com.aryansingh.instaforms.repositories.organduser.OrgUserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

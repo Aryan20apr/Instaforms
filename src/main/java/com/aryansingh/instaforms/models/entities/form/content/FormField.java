@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.lang.reflect.Field;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class FormField {
     private String title;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<SectionResource> resources = new ArrayList<>();
+    private List<FieldResource> sectionResources = new ArrayList<>();
 
     @Column(name = "field_type", insertable = false, updatable = false)
     @Enumerated(EnumType.STRING)

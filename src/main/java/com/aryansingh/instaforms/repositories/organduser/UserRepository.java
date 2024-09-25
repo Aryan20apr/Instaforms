@@ -1,4 +1,4 @@
-package com.aryansingh.instaforms.repositories;
+package com.aryansingh.instaforms.repositories.organduser;
 
 import com.aryansingh.instaforms.models.entities.userAndAuth.SingleUser;
 import org.springframework.data.jpa.repository.JpaRepository;

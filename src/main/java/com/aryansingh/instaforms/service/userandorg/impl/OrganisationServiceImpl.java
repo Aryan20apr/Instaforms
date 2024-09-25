@@ -5,7 +5,7 @@ import com.aryansingh.instaforms.models.dtos.auth.TokenDTO;
 import com.aryansingh.instaforms.models.dtos.org.OrganisationDTO;
 import com.aryansingh.instaforms.models.entities.userAndAuth.Organisation;
 import com.aryansingh.instaforms.models.entities.userAndAuth.Role;
-import com.aryansingh.instaforms.repositories.OrganisationRepository;
+import com.aryansingh.instaforms.repositories.organduser.OrganisationRepository;
 import com.aryansingh.instaforms.service.role.RoleService;
 import com.aryansingh.instaforms.service.userandorg.OrganisationService;
 import com.aryansingh.instaforms.utils.AppConstants;

@@ -31,7 +31,7 @@ public class Section {
     private String description;
 
     @OneToMany(mappedBy = "section", fetch = FetchType.LAZY, cascade = {CascadeType.ALL}, orphanRemoval = true)
-    private List<SectionResource> resources = new ArrayList<>();
+    private List<SectionResource> sectionResources = new ArrayList<>();
 
     @OneToMany(mappedBy = "section", fetch = FetchType.LAZY,cascade = {CascadeType.ALL}, orphanRemoval = true)
     private Set<FormField> formFields = new LinkedHashSet<>();

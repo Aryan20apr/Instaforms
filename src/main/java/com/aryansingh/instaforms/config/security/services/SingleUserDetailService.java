@@ -2,7 +2,7 @@ package com.aryansingh.instaforms.config.security.services;
 
 import com.aryansingh.instaforms.models.entities.security.SecurityUser;
 import com.aryansingh.instaforms.models.entities.userAndAuth.SingleUser;
-import com.aryansingh.instaforms.repositories.UserRepository;
+import com.aryansingh.instaforms.repositories.organduser.UserRepository;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

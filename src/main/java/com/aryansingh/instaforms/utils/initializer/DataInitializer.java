@@ -1,7 +1,7 @@
 package com.aryansingh.instaforms.utils.initializer;
 
 import com.aryansingh.instaforms.models.entities.userAndAuth.Role;
-import com.aryansingh.instaforms.repositories.RoleRepository;
+import com.aryansingh.instaforms.repositories.organduser.RoleRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;

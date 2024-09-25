@@ -26,6 +26,9 @@ public class FormSettings {
 
     private String backgroundImage;
 
+
+    // TODO: Add video also
+
     @Override
     public boolean equals(Object o) {
         if (this == o)
