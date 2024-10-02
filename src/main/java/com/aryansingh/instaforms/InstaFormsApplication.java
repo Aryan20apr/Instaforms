@@ -1,5 +1,6 @@
 package com.aryansingh.instaforms;
 
+import com.aryansingh.instaforms.config.cloudinary.CloudinaryConfigProperties;
 import com.aryansingh.instaforms.utils.email.EmailConfigurationProperties;
 import com.aryansingh.instaforms.utils.rabbitmq.DeadLetterQueueConfigProperties;
 import com.aryansingh.instaforms.utils.rabbitmq.RabbitMQConfigurationProperties;
@@ -17,7 +18,8 @@ import java.util.concurrent.Executor;
 @EnableConfigurationProperties(
         {EmailConfigurationProperties.class,
                 RabbitMQConfigurationProperties.class,
-                DeadLetterQueueConfigProperties.class})
+                DeadLetterQueueConfigProperties.class,
+                CloudinaryConfigProperties.class})
 public class InstaFormsApplication {
 
     public static void main(String[] args) {

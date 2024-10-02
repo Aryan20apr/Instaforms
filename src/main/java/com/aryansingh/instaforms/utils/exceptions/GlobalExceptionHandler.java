@@ -67,7 +67,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InsufficientRolesException.class)
     public ResponseEntity<ApiResponse<String>> handleInsufficientRolesException(InsufficientRolesException e){
         ApiResponse<String> apiResponse=new ApiResponse<>(AppConstants.ACCESS_DENIED_CODE,AppConstants.ACCESS_DENIED_MESSAGE,e.getMessage());
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return new ResponseEntity<>(apiResponse, HttpStatus.FORBIDDEN);
     }
 
     // Handle @Valid validation errors
