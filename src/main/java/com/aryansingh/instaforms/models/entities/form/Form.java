@@ -20,6 +20,9 @@ import java.util.*;
 @Setter
 @Getter
 @ToString
+@Table(indexes = {
+        @Index(name = "idx_form_token", columnList = "formToken")
+})
 public class Form {
 
     @Id

@@ -22,7 +22,11 @@ import java.util.UUID;
 @Setter
 @ToString
 @AllArgsConstructor
-@Table
+@Table( indexes = {
+        @Index(name = "idx_user_name", columnList = "userName"),
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_user_token", columnList = "userToken")
+})
 @Builder
 public class SingleUser {
 

@@ -20,6 +20,10 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@Table( indexes = {
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_org_user_token", columnList = "userToken")
+})
 public class OrganisationUser {
 
     @Id

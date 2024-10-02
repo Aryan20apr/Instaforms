@@ -20,6 +20,11 @@ import java.util.UUID;
 @Setter
 @ToString
 @Builder
+@Table( indexes = {
+        @Index(name = "idx_org_name", columnList = "organisationName"),
+        @Index(name = "idx_email", columnList = "email"),
+        @Index(name = "idx_user_token", columnList = "organisationToken")
+})
 @AllArgsConstructor
 public class Organisation {
 
